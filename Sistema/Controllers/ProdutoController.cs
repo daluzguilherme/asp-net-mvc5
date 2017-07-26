@@ -1,7 +1,9 @@
 ﻿using Sistema.Context;
+using Sistema.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -20,7 +22,19 @@ namespace Sistema.Controllers
         // GET: Produto/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var produto = db.Produto.Find(id);
+
+            if (produto == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(produto);
         }
 
         // GET: Produto/Create
@@ -31,17 +45,23 @@ namespace Sistema.Controllers
 
         // POST: Produto/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Produto produto )
         {
             try
             {
-                // TODO: Add insert logic here
+                if (ModelState.IsValid)
+                {
+                    db.Produto.Add(produto);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
 
-                return RedirectToAction("Index");
+                return View(produto);
+
             }
             catch
             {
-                return View();
+                return View(produto);
             }
         }
 

@@ -9,7 +9,7 @@ namespace Sistema.Models
     public class Produto
     {
         [Key]
-        public int ID { get; set; }
+        public int produtoId { get; set; }
 
         public string Descricao { get; set; }
 
