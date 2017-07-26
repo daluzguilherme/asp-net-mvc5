@@ -14,7 +14,7 @@ namespace Sistema.Controllers
         // GET: Produto
         public ActionResult Index()
         {
-            return View();
+            return View(db.Produto.ToList());
         }
 
         // GET: Produto/Details/5
